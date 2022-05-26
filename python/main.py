@@ -89,7 +89,7 @@ class Student(Teacher):
             'Student mail': self.email,
             'Student Address': self.address,
             'Student Number': self.number,
-            'Courses': self.course
+            'Courses': [self.course]
         }
 
 
@@ -133,7 +133,7 @@ while True:
             f"{input('Enter student name:')}", f"{input('Enter student last name: ')}",
             f"{input('Create a password: ')}", f"{input('Enter student mail: ')}",
             f"{input('Enter student address: ')}", f"{input('Enter student contact: ')}",
-            f"{input('Enter student course: ')}"
+            ""
         )
         stu.add_student()
 
@@ -187,19 +187,22 @@ while True:
 
         for i in courses:
             if get_course == courses[i]['Course Name']:
-                courses[tcr.course]['Teacher'].remove(get_teacher)
-                print("Removed successfully!")
+                try:
+                    courses[i]['Teacher'].remove(get_teacher)
+                    print("Removed successfully!")
+                except NameError:
+                    print("ERROR!")
 
     # Remove a student from a course
     elif get_operation == "7":
-        print("YOU ARE ABOUT DELETE A STUDENT")
+        print("YOU ARE ABOUT REMOVE A STUDENT FROM A COURSE")
 
         get_course = input("Select a course first: ")
         if get_course in courses:
             get_student = input("Now select a student: ")
 
             removed_stu = courses[get_course]['Students'].remove(get_student)
-            print(f"Successfully removed {removed_stu} from system")
+            print(f"Successfully removed {get_student} from system")
         else:
             print(
                 "Such student/course doesn't exist or is not registered to any of our courses.")
@@ -207,15 +210,21 @@ while True:
     # Add a student to an existing course
     elif get_operation == "8":
         print("YOU ARE ABOUT TO ADD A STUDENT TO A COURSE")
+
+        stu.print_all()
         get_course = input("Select a course first: ")
-        get_student = input("Now select the student: ")
+        get_student = int(input("Now select the student by ID: "))
 
         for i in courses:
-            if get_course == courses[i]['Course Name']:
-                courses[get_course]['Students'].append(get_student)
-                print("Added successfully!")
+            if get_course == courses[i]['Course Name'] and get_student in student_ids:
+                courses[get_course]['Students'].append(
+                    students[get_student]['Student Name'])
+
+                students[get_student]['Courses'].append(get_course)
+
+                print(f"{get_student} added to {get_course} successfully!")
             else:
-                print("Such course does not exist!")
+                print("Such course or student does not exist!")
 
     elif get_operation == "10":
         print("You have chosen to exit the program...")
