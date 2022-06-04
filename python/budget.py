@@ -24,7 +24,8 @@ class App:
 
     def calculate_money_spent(self):
         return self.food + self.entertainment + self.clothing + self.fuel
-
+    
+    @staticmethod
     def fetch_weather_data():
         response = requests.get(
             "https://api.openweathermap.org/data/2.5/weather?q=izmir&appid=8af3aba99edd9fb699076f610994383c&units=metric")
